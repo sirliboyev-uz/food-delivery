@@ -14,9 +14,8 @@ public class Foods extends AbstractEntity {
     @Column(nullable = false)
     private String foodName;
     @Column(nullable = false)
-    private String quantity;
+    private float quantity;
     @Column(nullable = false)
-    private String price;
-    @ManyToOne
-    private Category category;
+    private float price;
+    private String category;
 }

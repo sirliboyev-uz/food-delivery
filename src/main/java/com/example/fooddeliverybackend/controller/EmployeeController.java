@@ -1,13 +1,12 @@
 package com.example.fooddeliverybackend.controller;
 
 import com.example.fooddeliverybackend.dto.ApiResponse;
-import com.example.fooddeliverybackend.dto.EmployeeDTO;
+import com.example.fooddeliverybackend.dto.EmployeeDto;
 import com.example.fooddeliverybackend.entity.utils.Annotation.RoleCheckName;
 import com.example.fooddeliverybackend.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,14 +16,14 @@ public class EmployeeController {
     EmployeeService employeeService;
     @RoleCheckName(value = "ADD_USER")
     @PostMapping("/add")
-    public ResponseEntity<?> insertEmployee(@Valid @RequestBody EmployeeDTO dto){
+    public ResponseEntity<?> insertEmployee(@Valid @RequestBody EmployeeDto dto){
         ApiResponse apiResponse=employeeService.empAdd(dto);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage()+"\n"+apiResponse.getObject());
     }
 
     @RoleCheckName(value = "EDIT_USER")
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO dto){
+    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDto dto){
         ApiResponse apiResponse=employeeService.empUpdate(id,dto);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage());
     }

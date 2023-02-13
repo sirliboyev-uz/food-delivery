@@ -1,22 +1,16 @@
 package com.example.fooddeliverybackend.service;
 
 import com.example.fooddeliverybackend.dto.ApiResponse;
-import com.example.fooddeliverybackend.dto.RoleRegisterDTO;
-import com.example.fooddeliverybackend.entity.Role;
-import com.example.fooddeliverybackend.repository.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.fooddeliverybackend.dto.RoleRegisterDto;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface RoleService {
-    ApiResponse roleRegister(RoleRegisterDTO roleRegisterDTO);
+    ApiResponse register(RoleRegisterDto roleRegisterDTO);
 
-    ApiResponse roleUpdate(Long id, RoleRegisterDTO dto);
+    ApiResponse update(Long id, RoleRegisterDto dto);
 
-    ApiResponse roleDelete(Long id);
+    ApiResponse delete(Long id);
     ApiResponse role(Long id);
     ApiResponse roles();
 }

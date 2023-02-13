@@ -24,5 +24,4 @@ public class Role extends AbstractEntity {
     @Enumerated(value = EnumType.STRING)
     @ElementCollection
     private List<Permission> permissions;
-
 }

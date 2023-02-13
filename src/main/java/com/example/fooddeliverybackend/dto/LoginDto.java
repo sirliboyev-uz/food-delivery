@@ -3,7 +3,7 @@ package com.example.fooddeliverybackend.dto;
 import lombok.Data;
 
 @Data
-public class LoginDTO {
-    private String email;
+public class LoginDto {
+    private String username;
     private String password;
 }

@@ -1,7 +1,7 @@
 package com.example.fooddeliverybackend.service.ServiceImpl;
 
 import com.example.fooddeliverybackend.dto.ApiResponse;
-import com.example.fooddeliverybackend.dto.RoleRegisterDTO;
+import com.example.fooddeliverybackend.dto.RoleRegisterDto;
 import com.example.fooddeliverybackend.entity.Role;
 import com.example.fooddeliverybackend.repository.RoleRepository;
 import com.example.fooddeliverybackend.service.RoleService;
@@ -16,7 +16,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     RoleRepository roleRepository;
     @Override
-    public ApiResponse roleRegister(RoleRegisterDTO roleRegisterDTO) {
+    public ApiResponse register(RoleRegisterDto roleRegisterDTO) {
         if(roleRepository.existsByRoleName(roleRegisterDTO.getName())) return new ApiResponse("Role already registered",false);
         Role role=new Role(
                 roleRegisterDTO.getName(),
@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
         return new ApiResponse("Role Successfully registered!",true);
     }
     @Override
-    public ApiResponse roleUpdate(Long id, RoleRegisterDTO dto) {
+    public ApiResponse update(Long id, RoleRegisterDto dto) {
         Optional<Role> optionalRole=roleRepository.findById(id);
         if(optionalRole.isPresent()){
             if(roleRepository.existsByRoleNameAndIdNot(dto.getName(),id))
@@ -39,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
         return new ApiResponse("Role not found",false);
     }
     @Override
-    public ApiResponse roleDelete(Long id) {
+    public ApiResponse delete(Long id) {
         Optional<Role> optionalRole=roleRepository.findById(id);
         if(optionalRole.isPresent()){
             roleRepository.deleteById(id);

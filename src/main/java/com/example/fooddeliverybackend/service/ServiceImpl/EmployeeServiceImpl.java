@@ -1,7 +1,7 @@
 package com.example.fooddeliverybackend.service.ServiceImpl;
 
 import com.example.fooddeliverybackend.dto.ApiResponse;
-import com.example.fooddeliverybackend.dto.EmployeeDTO;
+import com.example.fooddeliverybackend.dto.EmployeeDto;
 import com.example.fooddeliverybackend.entity.Users;
 import com.example.fooddeliverybackend.repository.RoleRepository;
 import com.example.fooddeliverybackend.repository.UserRepository;
@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     JavaMailSender javaMailSender;
     @Override
-    public ApiResponse empAdd(EmployeeDTO dto) {
+    public ApiResponse empAdd(EmployeeDto dto) {
         if (!roleRepository.existsByRoleName(String.valueOf(dto.getRoleName()))) return new ApiResponse("Not found role",false);
         if(userRepository.existsByEmail(dto.getEmail())) return new ApiResponse("Already registered user",false);
         Users users=new Users(
@@ -81,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new ApiResponse("Already confirmed",false);
     }
     @Override
-    public ApiResponse empUpdate(Long id, EmployeeDTO dto) {
+    public ApiResponse empUpdate(Long id, EmployeeDto dto) {
         Optional<Users> optionalUsers=userRepository.findById(id);
         if (optionalUsers.isPresent()){
             if(userRepository.existsByEmail(dto.getEmail())) return new ApiResponse("Username already taken",false);

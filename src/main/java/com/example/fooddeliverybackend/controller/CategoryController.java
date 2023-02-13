@@ -1,9 +1,7 @@
 package com.example.fooddeliverybackend.controller;
 
 import com.example.fooddeliverybackend.dto.ApiResponse;
-import com.example.fooddeliverybackend.dto.EmployeeDTO;
 import com.example.fooddeliverybackend.entity.Category;
-import com.example.fooddeliverybackend.repository.CategoryRepository;
 import com.example.fooddeliverybackend.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,9 @@
 package com.example.fooddeliverybackend.service.ServiceImpl;
 
 import com.example.fooddeliverybackend.dto.ApiResponse;
-import com.example.fooddeliverybackend.dto.LoginDTO;
-import com.example.fooddeliverybackend.dto.RegisterDTO;
+import com.example.fooddeliverybackend.dto.JwtResponse;
+import com.example.fooddeliverybackend.dto.LoginDto;
+import com.example.fooddeliverybackend.dto.RegisterDto;
 import com.example.fooddeliverybackend.entity.Users;
 import com.example.fooddeliverybackend.entity.utils.Constanta;
 import com.example.fooddeliverybackend.repository.RoleRepository;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     JavaMailSender javaMailSender;
     @Override
-    public ApiResponse registerUser(RegisterDTO registerDTO) {
+    public ApiResponse registerUser(RegisterDto registerDTO) {
         boolean optionalUsers=userRepository.existsByEmail(registerDTO.getEmail());
         if (registerDTO.getPassword().equals(registerDTO.getRePassword())){
             if (!optionalUsers){
@@ -71,12 +73,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(username).orElseThrow(()->new UsernameNotFoundException(username+" not found username"));
     }
     @Override
-    public ApiResponse loginUser(LoginDTO loginDTO) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+    public JwtResponse loginUser(LoginDto loginDTO) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         Users users= (Users) authenticate.getPrincipal();
-        String token1=token.getToken(users.getUsername(), users.getRole());
+        String token1=token.generateJwtToken(authenticate);
         System.out.println(token1);
-        return new ApiResponse("Welcome to profile", true, token1);
+        return new JwtResponse(token1, users.getId(), users.getEmail(), users.getRole().getRoleName());
     }
     @Override
     public boolean sendEmail(String email,String code){
@@ -106,5 +108,15 @@ public class UserServiceImpl implements UserService {
             return new ApiResponse("Successfully confirmed email",true);
         }
         return new ApiResponse("Already confirmed",false);
+    }
+
+    @Override
+    public Optional<Users> getUser(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<Users> getUsers() {
+        return userRepository.findAll();
     }
 }

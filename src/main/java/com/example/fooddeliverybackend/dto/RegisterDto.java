@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Valid
-public class RegisterDTO {
+public class RegisterDto {
 
 //    @NotNull(message = "fullName not null")
     private String firstName;

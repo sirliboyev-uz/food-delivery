@@ -4,7 +4,7 @@ import com.example.fooddeliverybackend.entity.Role;
 import lombok.Data;
 
 @Data
-public class EmployeeDTO {
+public class EmployeeDto {
     private String firstName;
     private String lastName;
 
