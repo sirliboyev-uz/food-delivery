@@ -23,14 +23,12 @@ public class RoleController {
         ApiResponse apiResponse = roleService.register(roleRegisterDTO);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage());
     }
-
     @RoleCheckName(value = "EDIT_ROLE")
     @PutMapping("/update/{id}")
     public HttpEntity<?> update(@PathVariable Long id, @Valid @RequestBody RoleRegisterDto roleRegisterDTO){
         ApiResponse apiResponse=roleService.update(id, roleRegisterDTO);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage());
     }
-
     @RoleCheckName(value = "DELETE_ROLE")
     @DeleteMapping("/delete/{id}")
     public HttpEntity<?> delete(@PathVariable Long id){

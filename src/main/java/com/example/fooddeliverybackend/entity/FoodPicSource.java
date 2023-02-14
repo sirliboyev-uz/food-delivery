@@ -10,10 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Foods extends AbstractEntity {
+public class FoodPicSource {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
-    private String foodName;
+    private String name;
+
+    private String contentType;
+
+    private float fileSize;
     @Column(nullable = false)
-    private float price;
-    private String category;
+    private byte[] bytes;
+    @OneToOne
+    Foods foods;
 }

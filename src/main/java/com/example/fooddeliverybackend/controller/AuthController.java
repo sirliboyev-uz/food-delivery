@@ -34,10 +34,10 @@ public class AuthController {
         ApiResponse apiResponse=userService.confirm(email,emailCode);
         return ResponseEntity.status(apiResponse.getType()?201:409).body(apiResponse.getMessage());
     }
-//    @GetMapping(value = "/home")
-//    public ResponseEntity<?> home(){
-//        return ResponseEntity.ok().body("Salom");
-//    }
+    @GetMapping(value = "/all")
+    public ResponseEntity<?> home(){
+        return ResponseEntity.ok().body("Salom");
+    }
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public String userAccess() {

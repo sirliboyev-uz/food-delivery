@@ -56,18 +56,17 @@ public class UserServiceImpl implements UserService {
                         passwordEncoder.encode(registerDTO.getPassword()),
                         registerDTO.getPhone(),
                         roleRepository.findByRoleName(Constanta.USER).get(),
-                        true,
+                        false,
                         UUID.randomUUID().toString()
                 );
                 boolean d=sendEmail(users.getUsername(),users.getEmailCode());
                 userRepository.save(users);
-                return new ApiResponse("Successfully registered", true);
+                return new ApiResponse("Muvaffaqiyatli ro'yxatdan o'tdingiz, emailingizga tasdiqlash xabari yuborildi", true);
             }
-            return new ApiResponse("Already user registered", false);
+            return new ApiResponse("Avval ro'yxatdan o'tgansiz", false);
         }
-        return new ApiResponse("Not equal re password", false);
+        return new ApiResponse("Parollar mos emas", false);
     }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(()->new UsernameNotFoundException(username+" not found username"));
@@ -75,6 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public JwtResponse loginUser(LoginDto loginDTO) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+        if (!authenticate.isAuthenticated()) return null;
         Users users= (Users) authenticate.getPrincipal();
         String token1=token.generateJwtToken(authenticate);
         System.out.println(token1);
@@ -105,9 +105,9 @@ public class UserServiceImpl implements UserService {
             users.setEnabled(true);
             users.setEmailCode(null);
             userRepository.save(users);
-            return new ApiResponse("Successfully confirmed email",true);
+            return new ApiResponse("Email tasdiqlandi",true);
         }
-        return new ApiResponse("Already confirmed",false);
+        return new ApiResponse("Hisob foallashtirilgan",false);
     }
 
     @Override

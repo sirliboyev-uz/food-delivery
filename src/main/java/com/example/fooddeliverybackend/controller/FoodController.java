@@ -9,7 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,8 +21,8 @@ public class FoodController {
     FoodService foodService;
     @RoleCheckName("ADD_FOOD")
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody FoodDto foodDTO){
-        ApiResponse apiResponse=foodService.add(foodDTO);
+    public ResponseEntity<?> add(@Valid @RequestParam FoodDto foodDTO, MultipartHttpServletRequest request) throws IOException {
+        ApiResponse apiResponse=foodService.add(foodDTO, request);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage());
     }
 
