@@ -4,12 +4,12 @@ import com.example.fooddeliverybackend.dto.ApiResponse;
 import com.example.fooddeliverybackend.dto.JwtResponse;
 import com.example.fooddeliverybackend.dto.LoginDto;
 import com.example.fooddeliverybackend.dto.RegisterDto;
+import com.example.fooddeliverybackend.entity.utils.Annotation.RoleCheckName;
 import com.example.fooddeliverybackend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,22 +36,22 @@ public class AuthController {
     }
     @GetMapping(value = "/all")
     public ResponseEntity<?> home(){
-        return ResponseEntity.ok().body("Salom");
+        return ResponseEntity.ok().body("Hi, this is public content");
     }
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @RoleCheckName("READ_USER")
     public String userAccess() {
         return "User Content.";
     }
 
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @RoleCheckName(value = "ADD_ROLE")
     public String moderatorAccess() {
         return "Moderator Board.";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @RoleCheckName(value = "ADD_ROLE")
     public String adminAccess() {
         return "Admin Board.";
     }

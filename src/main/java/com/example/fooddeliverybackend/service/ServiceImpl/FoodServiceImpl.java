@@ -28,11 +28,10 @@ public class FoodServiceImpl implements FoodService {
     org.slf4j.Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public ApiResponse add(FoodDto foodDTO, MultipartHttpServletRequest request) throws IOException {
+    public ApiResponse add(FoodDto foodDTO) throws IOException {
         logger.info("creating food");
         if (foodRepository.existsByFoodName(foodDTO.getFoodName())) return new ApiResponse("Bunday maxsulot mavjud!", false);
-        Iterator<String> stringIterator=request.getFileNames();
-        MultipartFile multipartFile=request.getFile(stringIterator.next());
+        MultipartFile multipartFile=foodDTO.getFile();
         if (multipartFile!=null){
             String fileName=multipartFile.getOriginalFilename();
             float fileSize=multipartFile.getSize();

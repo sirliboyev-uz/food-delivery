@@ -21,23 +21,23 @@ public class FoodController {
     FoodService foodService;
     @RoleCheckName("ADD_FOOD")
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestParam FoodDto foodDTO, MultipartHttpServletRequest request) throws IOException {
-        ApiResponse apiResponse=foodService.add(foodDTO, request);
+    public ResponseEntity<?> add(@Valid @ModelAttribute FoodDto foodDTO) throws IOException {
+        ApiResponse apiResponse=foodService.add(foodDTO);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage());
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> add(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         ApiResponse apiResponse=foodService.delete(id);
         return ResponseEntity.status(apiResponse.getType()?200:409).body(apiResponse.getMessage());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUser(@PathVariable Long id){
+    public ResponseEntity<?> getFood(@PathVariable Long id){
         ApiResponse food = foodService.getFood(id);
         return ResponseEntity.ok(food);
     }
     @GetMapping()
-    public ResponseEntity<?> getUsers(){
+    public ResponseEntity<?> getFoods(){
         List<Foods> foods=foodService.getFoods();
         return ResponseEntity.ok(foods);
     }

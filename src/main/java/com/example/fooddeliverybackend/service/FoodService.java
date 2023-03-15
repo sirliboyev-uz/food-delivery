@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FoodService {
-    ApiResponse add(FoodDto foodDTO, MultipartHttpServletRequest request) throws IOException;
+    ApiResponse add(FoodDto foodDTO) throws IOException;
     ApiResponse update(FoodDto foodDTO);
     ApiResponse delete(Long id);
     ApiResponse getFood(Long id);
